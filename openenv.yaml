@@ -1,0 +1,60 @@
+name: code-review-env
+version: "1.0.0"
+description: "An OpenEnv environment for training AI agents to review code diffs"
+author: "B2prakash"
+license: "MIT"
+
+tasks:
+  - id: task_1
+    name: Bug Identification
+    difficulty: easy
+    max_turns: 5
+    reward_range: [0.0, 1.0]
+
+  - id: task_2
+    name: Security Audit
+    difficulty: medium
+    max_turns: 5
+    reward_range: [0.0, 1.0]
+
+  - id: task_3
+    name: Refactor Quality Review
+    difficulty: hard
+    max_turns: 8
+    reward_range: [0.0, 1.0]
+
+observation_space:
+  type: object
+  fields:
+    - name: task_id
+      type: string
+    - name: code_diff
+      type: string
+    - name: language
+      type: string
+    - name: context
+      type: string
+    - name: turn
+      type: integer
+
+action_space:
+  type: object
+  fields:
+    - name: review_text
+      type: string
+    - name: issues_found
+      type: array
+    - name: severity
+      type: string
+      values: [low, medium, high]
+
+reward_range: [0.0, 1.0]
+episode_max_turns: 8
+
+endpoints:
+  reset: POST /reset
+  step: POST /step
+  state: GET /state
+  tasks: GET /tasks
+  grader: POST /grader
+  baseline: POST /baseline
