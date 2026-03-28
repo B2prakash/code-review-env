@@ -85,6 +85,6 @@ def grader():
 
 @app.post("/baseline")
 def baseline():
-    from baseline_inference import run_baseline
+    from inference import run_baseline
     results = run_baseline()
     return results
