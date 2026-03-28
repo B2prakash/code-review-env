@@ -15,7 +15,6 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
-# Single environment instance
 env = CodeReviewEnv()
 
 
@@ -55,24 +54,9 @@ def state():
 def tasks():
     return {
         "tasks": [
-            {
-                "id": "task_1",
-                "name": "Bug Identification",
-                "difficulty": "easy",
-                "max_turns": 5
-            },
-            {
-                "id": "task_2",
-                "name": "Security Audit",
-                "difficulty": "medium",
-                "max_turns": 5
-            },
-            {
-                "id": "task_3",
-                "name": "Refactor Quality Review",
-                "difficulty": "hard",
-                "max_turns": 8
-            }
+            {"id": "task_1", "name": "Bug Identification", "difficulty": "easy", "max_turns": 5},
+            {"id": "task_2", "name": "Security Audit", "difficulty": "medium", "max_turns": 5},
+            {"id": "task_3", "name": "Refactor Quality Review", "difficulty": "hard", "max_turns": 8}
         ],
         "action_schema": Action.schema()
     }
@@ -85,6 +69,18 @@ def grader():
 
 @app.post("/baseline")
 def baseline():
-    from inference import run_baseline
-    results = run_baseline()
-    return results
+    try:
+        from inference import run_baseline
+        results = run_baseline()
+        return results
+    except Exception as e:
+        return {"error": str(e)}
+
+
+def main():
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=7860)
+
+
+if __name__ == "__main__":
+    main()
