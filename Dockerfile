@@ -2,11 +2,11 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-COPY requirements.txt .
+COPY . .
 
 RUN pip install --no-cache-dir fastapi uvicorn pydantic openai pytest numpy
 
-COPY . .
+ENV PYTHONPATH=/app
 
 EXPOSE 7860
 
